@@ -1,4 +1,7 @@
-<!-- No content needed here if it's just for scripts -->
+    </main> <!-- End main content area -->
+</div> <!-- End flex container -->
+
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html> 
