@@ -1,0 +1,95 @@
+/*
+ * MSJA Investment CRM - Client Area Stylesheet
+ */
+
+:root {
+    --client-bg: #f8fafc;
+    --sidebar-bg: #ffffff;
+    --sidebar-border: #e2e8f0;
+    --sidebar-text: #64748b;
+    --sidebar-active-text: #4a90e2;
+    --sidebar-active-bg: #f1f5f9;
+    --card-bg: #ffffff;
+}
+
+body {
+    background-color: var(--client-bg);
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+/* Sidebar */
+#sidebar {
+    min-width: 260px;
+    max-width: 260px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    transition: all 0.3s;
+    min-height: 100vh;
+}
+
+#sidebar.active {
+    margin-left: -260px;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--sidebar-border);
+}
+
+#sidebar .sidebar-header h3 {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+#sidebar ul.components {
+    padding: 15px 0;
+}
+
+#sidebar ul li a {
+    padding: 15px 25px;
+    font-size: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--sidebar-text);
+    transition: all 0.2s ease-in-out;
+    border-left: 4px solid transparent;
+}
+
+#sidebar ul li a i {
+    font-size: 1.2rem;
+}
+
+#sidebar ul li a:hover {
+    color: var(--sidebar-active-text);
+    background: var(--sidebar-active-bg);
+    text-decoration: none;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: var(--sidebar-active-text);
+    background: var(--sidebar-active-bg);
+    border-left-color: var(--primary-color);
+}
+
+/* Page Content */
+#content {
+    width: 100%;
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+.topbar {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--card-shadow);
+} 
