@@ -20,14 +20,14 @@ class KYCController {
             die("Unauthorized: You must be logged in.");
         }
         
-        $action = $_GET['action'] ?? '';
+        $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
         switch ($action) {
             case 'upload':
                 $this->uploadDocument();
                 break;
-            case 'approve':
-            case 'reject':
+            case 'approve_kyc':
+            case 'reject_kyc':
                 $this->reviewDocument($action);
                 break;
             default:
@@ -37,39 +37,29 @@ class KYCController {
     }
 
     private function reviewDocument($action) {
-        if ($this->auth->user()['role'] !== 'admin') {
+        if (!$this->auth->user()['is_admin']) {
             http_response_code(403);
             die("Forbidden.");
         }
 
-        $document_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-        if (!$document_id) {
+        $kyc_id = filter_input(INPUT_POST, 'kyc_id', FILTER_VALIDATE_INT);
+        if (!$kyc_id) {
             header('Location: ../admin/kyc.php?status=error&msg=InvalidID');
             exit();
         }
 
-        // The status is the action name (e.g., 'approve' becomes 'verified')
-        $status = ($action === 'approve') ? 'verified' : 'rejected';
+        $status = ($action === 'approve_kyc') ? 'approved' : 'rejected';
         $admin_id = $this->auth->user()['id'];
+        $reason = ($action === 'reject_kyc') ? filter_input(INPUT_POST, 'rejection_reason', FILTER_SANITIZE_STRING) : null;
 
-        // We need the user_id from the document to update their master status
-        // (A more optimized way would be to have getDocumentById in the KYC class)
-        $all_docs = $this->kyc->getAllDocuments(); // Re-using existing method
-        $user_id_to_update = null;
-        foreach($all_docs as $doc) {
-            if ($doc['id'] === $document_id) {
-                $user_id_to_update = $doc['user_id'];
-                break;
-            }
+        $kyc_doc = $this->kyc->getDocumentById($kyc_id);
+        if (!$kyc_doc) {
+            header('Location: ../admin/kyc.php?status=error&msg=NotFound');
+            exit();
         }
         
-        if ($this->kyc->updateDocumentStatus($document_id, $status, $admin_id)) {
-            // If this approval verifies the user, update their master status
-            // A more complex logic could be: check if all required docs are verified.
-            // For now, we'll assume one verified doc is enough.
-            if ($status === 'verified' && $user_id_to_update) {
-                $this->kyc->updateUserKycStatus($user_id_to_update, 'verified');
-            }
+        if ($this->kyc->updateDocumentStatus($kyc_id, $status, $admin_id, $reason)) {
+            $this->kyc->updateUserKycStatus($kyc_doc['user_id'], $status);
 
             header('Location: ../admin/kyc.php?status=success&msg=UpdateSuccess');
             exit();
