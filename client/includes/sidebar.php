@@ -30,15 +30,10 @@
         <?php endforeach; ?>
     </nav>
     
-    <div class="p-4 border-t">
+    <div class="p-4 border-t border-gray-200">
         <a href="<?php echo URLROOT; ?>/logout.php" class="flex items-center justify-center w-full px-4 py-3 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600 transition-colors duration-200">
             <i class='bx bx-log-out text-xl'></i>
             <span class="ml-3">Logout</span>
         </a>
     </div>
 </aside>
-
-<!-- Main Content Area -->
-<main class="flex-1">
-
-</main>

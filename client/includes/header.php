@@ -17,7 +17,18 @@
     <!-- Tailwind CSS Output -->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/assets/css/output.css">
 
+    <!-- Custom Styles (for glassmorphism) -->
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
 </head>
-<body class="bg-background text-text-dark">
-
-<div class="flex"> 
+<body class="bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-100 font-sans">
+    <div class="flex min-h-screen">
+        <!-- The sidebar will be included by the page templates -->
+    </div>
+</body>
+</html> 

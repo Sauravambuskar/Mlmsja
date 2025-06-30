@@ -30,74 +30,75 @@ require_once 'includes/header.php';
 require_once 'includes/sidebar.php';
 ?>
 
-<!-- Main content -->
-<div class="flex-1 p-6 md:p-10">
-    <h1 class="text-3xl font-bold text-gray-800 mb-8">Admin Dashboard</h1>
+<main class="flex-1">
+    <div class="p-6 md:p-10">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">Admin Dashboard</h1>
 
-    <!-- Stat Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white p-6 rounded-lg shadow-md flex items-center">
-            <div class="bg-blue-500 text-white rounded-full p-4 mr-4">
-                <i class="bx bxs-user text-2xl"></i>
+        <!-- Stat Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="glass-card rounded-lg shadow-lg p-6 flex items-center">
+                <div class="bg-blue-500 text-white rounded-full p-4 mr-4">
+                    <i class="bx bxs-user text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Total Users</p>
+                    <p class="text-2xl font-bold text-gray-800"><?php echo $stats['total_users']; ?></p>
+                </div>
             </div>
-            <div>
-                <p class="text-sm text-gray-500">Total Users</p>
-                <p class="text-2xl font-bold text-gray-800"><?php echo $stats['total_users']; ?></p>
+            <div class="glass-card rounded-lg shadow-lg p-6 flex items-center">
+                <div class="bg-green-500 text-white rounded-full p-4 mr-4">
+                    <i class="bx bxs-wallet text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Total Investments</p>
+                    <p class="text-2xl font-bold text-gray-800"><?php echo $stats['total_investments']; ?></p>
+                </div>
+            </div>
+            <div class="glass-card rounded-lg shadow-lg p-6 flex items-center">
+                <div class="bg-yellow-500 text-white rounded-full p-4 mr-4">
+                    <i class="bx bxs-dollar-circle text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Total Revenue</p>
+                    <p class="text-2xl font-bold text-gray-800">$<?php echo number_format($stats['total_revenue']); ?></p>
+                </div>
+            </div>
+            <div class="glass-card rounded-lg shadow-lg p-6 flex items-center">
+                <div class="bg-red-500 text-white rounded-full p-4 mr-4">
+                    <i class="bx bxs-user-check text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Pending KYC</p>
+                    <p class="text-2xl font-bold text-gray-800"><?php echo $stats['pending_kyc']; ?></p>
+                </div>
             </div>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md flex items-center">
-            <div class="bg-green-500 text-white rounded-full p-4 mr-4">
-                <i class="bx bxs-wallet text-2xl"></i>
-            </div>
-            <div>
-                <p class="text-sm text-gray-500">Total Investments</p>
-                <p class="text-2xl font-bold text-gray-800"><?php echo $stats['total_investments']; ?></p>
-            </div>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-md flex items-center">
-            <div class="bg-yellow-500 text-white rounded-full p-4 mr-4">
-                <i class="bx bxs-dollar-circle text-2xl"></i>
-            </div>
-            <div>
-                <p class="text-sm text-gray-500">Total Revenue</p>
-                <p class="text-2xl font-bold text-gray-800">$<?php echo number_format($stats['total_revenue']); ?></p>
-            </div>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-md flex items-center">
-            <div class="bg-red-500 text-white rounded-full p-4 mr-4">
-                <i class="bx bxs-user-check text-2xl"></i>
-            </div>
-            <div>
-                <p class="text-sm text-gray-500">Pending KYC</p>
-                <p class="text-2xl font-bold text-gray-800"><?php echo $stats['pending_kyc']; ?></p>
+        
+        <!-- Recent Users Table -->
+        <div class="glass-card rounded-lg shadow-lg p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Recent Users</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-gray-300/50 text-gray-600">
+                            <th class="py-3 px-4 font-semibold">Username</th>
+                            <th class="py-3 px-4 font-semibold">Email</th>
+                            <th class="py-3 px-4 font-semibold">Join Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($recent_users as $user): ?>
+                        <tr class="border-b border-gray-300/20">
+                            <td class="py-4 px-4 text-gray-800 font-medium"><?php echo htmlspecialchars($user['username']); ?></td>
+                            <td class="py-4 px-4 text-gray-700"><?php echo htmlspecialchars($user['email']); ?></td>
+                            <td class="py-4 px-4 text-gray-700"><?php echo date('M d, Y', strtotime($user['created_at'])); ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    
-    <!-- Recent Users Table -->
-    <div class="bg-white p-6 rounded-lg shadow-md">
-        <h3 class="text-xl font-bold text-gray-800 mb-4">Recent Users</h3>
-        <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead>
-                    <tr class="border-b text-gray-500">
-                        <th class="py-3 px-4 font-semibold">Username</th>
-                        <th class="py-3 px-4 font-semibold">Email</th>
-                        <th class="py-3 px-4 font-semibold">Join Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($recent_users as $user): ?>
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="py-4 px-4 text-gray-800 font-medium"><?php echo htmlspecialchars($user['username']); ?></td>
-                        <td class="py-4 px-4 text-gray-600"><?php echo htmlspecialchars($user['email']); ?></td>
-                        <td class="py-4 px-4 text-gray-600"><?php echo date('M d, Y', strtotime($user['created_at'])); ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+</main>
 
 <?php require_once 'includes/footer.php'; ?> 
